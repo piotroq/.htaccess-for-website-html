@@ -1,0 +1,54 @@
+# usuniecie koncówki .html
+RewriteEngine On
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^ %{REQUEST_URI}.html [NC,L]
+
+# Wymuszenie przedrostka www
+RewriteEngine On
+RewriteCond %{HTTP_HOST} !^$
+RewriteCond %{HTTP_HOST} !^www. [NC]
+RewriteCond %{HTTPS}s ^on(s)|
+RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Force SLL all
+RewriteEngine On 
+RewriteCond %{HTTPS} off 
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+#strony bledow
+ErrorDocument 404 https://www.pbmediaonline.pl/404.html
+ErrorDocument 500 https://www.pbmediaonline.pl/500.html
+
+# kompresja gzip
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml
+</IfModule>
+
+# pamiec podreczna przegladarki
+ExpiresActive On
+ExpiresDefault "access plus 1 year"
+# Zdjecia
+ExpiresByType image/jpg "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/gif "access plus 1 year"
+ExpiresByType image/svg+xml "access 1 year"
+ExpiresByType image/webp "access 1 year"
+AddType image/x-icon .ico
+ExpiresByType image/ico "access plus 1 year"
+ExpiresByType image/icon "access plus 1 year"
+ExpiresByType image/x-icon "access plus 1 year"
+# Kod
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType text/javascript "access plus 1 year"
+ExpiresByType text/html "access plus 1 year"
+ExpiresByType application/xhtml+xml "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType application/x-javascript "access plus 1 year"
+# Multimedia
+ExpiresByType audio/ogg "access 1 year"
+ExpiresByType video/mp4 "access 1 year"
+ExpiresByType video/ogg "access 1 year"
+ExpiresByType video/webm "access 1 year"
